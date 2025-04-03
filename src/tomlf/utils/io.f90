@@ -40,7 +40,7 @@ subroutine read_whole_file(filename, string, stat)
       & newunit=io, &
       & iostat=stat)
    if (stat == 0) then
-      inquire(unit=io, pos=length)
+      ! inquire(unit=io, pos=length)
       allocate(character(length-1, tfc) :: string, stat=stat)
    end if
    if (stat == 0) then
