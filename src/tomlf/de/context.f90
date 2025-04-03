@@ -73,6 +73,7 @@ pure function report1(self, message, origin, label, level, color) result(string)
    integer, intent(in), optional :: level
    !> Color terminal
    type(toml_terminal), intent(in), optional :: color
+   type(toml_terminal) :: tmp_term
    !> Final rendered report
    character(:, tfc), allocatable :: string
 
@@ -96,7 +97,8 @@ pure function report1(self, message, origin, label, level, color) result(string)
       & labels)
 
    if (.not.present(color)) then
-      string = render(diagnostic, self%source, toml_terminal(.false.))
+      string = render(diagnostic, self%source, tmp_term)
+      ! string = render(diagnostic, self%source, toml_terminal(.false.))
    else
       string = render(diagnostic, self%source, color)
    end if
@@ -117,6 +119,7 @@ pure function report2(self, message, origin1, origin2, label1, label2, level1, l
    integer, intent(in), optional :: level1, level2
    !> Color terminal
    type(toml_terminal), intent(in), optional :: color
+   type(toml_terminal) :: tmp_term
    !> Final rendered report
    character(:, tfc), allocatable :: string
 
@@ -145,7 +148,8 @@ pure function report2(self, message, origin1, origin2, label1, label2, level1, l
       & labels)
 
    if (.not.present(color)) then
-      string = render(diagnostic, self%source, toml_terminal(.false.))
+      string = render(diagnostic, self%source, tmp_term)
+      ! string = render(diagnostic, self%source, toml_terminal(.false.))
    else
       string = render(diagnostic, self%source, color)
    end if
