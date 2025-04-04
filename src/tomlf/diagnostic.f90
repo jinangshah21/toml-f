@@ -295,7 +295,10 @@ pure function render_text_with_labels(input, label, color, source) result(string
    allocate(token(0))  ! avoid compiler warning
    token = line_tokens(input)
    line(:) = [(count(token%first <= label(it)%first), it = 1, size(label))]
-   shift(:) = token(line)%first - 1
+   do it = 1, size(label)
+      shift(it) = token(line(it))%first - 1
+   end do
+   ! shift(:) = token(line)%first - 1
    first = max(1, minval(line))
    last = min(size(token), maxval(line))
    offset = integer_width(last)
