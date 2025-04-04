@@ -147,8 +147,8 @@ subroutine next(lexer, token)
    !> Current token
    type(toml_token), intent(inout) :: token
 
-   type(toml_token), parameter :: prelude(2) = &
-      [toml_token(token_kind%equal, 0, 0), toml_token(token_kind%keypath, 1, 0)]
+   type(toml_token) :: prelude(2)
+   prelude = [toml_token(token_kind%equal, 0, 0), toml_token(token_kind%keypath, 1, 0)]
 
    if (lexer%prelude > 0) then
       token = prelude(lexer%prelude)
