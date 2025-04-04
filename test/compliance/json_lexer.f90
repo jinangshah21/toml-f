@@ -205,7 +205,10 @@ subroutine next_token(lexer, token)
    case('"')
       call next_string(lexer, token)
       return
-   case("-", "0":"9")
+   case("-")
+      call next_number(lexer, token)
+      if (token%kind /= token_kind%invalid) return
+   case("0":"9")
       call next_number(lexer, token)
       if (token%kind /= token_kind%invalid) return
    case("t", "f")
