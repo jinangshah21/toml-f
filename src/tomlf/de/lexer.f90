@@ -859,11 +859,14 @@ subroutine next_datetime(lexer, token)
    integer, parameter :: offset(*) = [(it, it = 0, 10)], &
       & offset_date = 10, offset_time = 8, offset_local = 6
    character(*, tfc), parameter :: num = "0123456789"
+   integer :: temp(offset_date)
+   integer :: temp2(offset_time)
 
    prev = lexer%pos
    pos = lexer%pos
 
-   has_date = valid_date(peek(lexer, pos+offset(:offset_date)))
+   temp = pos+offset(:offset_date)
+   has_date = valid_date(peek(lexer, temp))
    if (has_date) then
       if (verify(peek(lexer, pos+offset_date), "Tt ") == 0 &
          & .and. pos + offset_date < len(lexer%chunk) &
@@ -872,7 +875,8 @@ subroutine next_datetime(lexer, token)
       end if
    end if
 
-   has_time = valid_time(peek(lexer, pos+offset(:offset_time)))
+   temp2 = pos+offset(:offset_time)
+   has_time = valid_time(peek(lexer, temp2))
    if (has_time) then
       pos = pos + offset_time - 1
       if (match(lexer, pos+1, char_kind%dot)) then
@@ -889,7 +893,8 @@ subroutine next_datetime(lexer, token)
          pos = pos + it
       end if
 
-      has_local = valid_local(peek(lexer, pos+offset(:offset_local)+1))
+      temp2 = pos+offset(:offset_local)+1
+      has_local = valid_local(peek(lexer, temp2))
       if (has_local) then
          if (.not.has_date) then
             token = toml_token(token_kind%invalid, prev, prev)
