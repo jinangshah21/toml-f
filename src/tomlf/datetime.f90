@@ -109,13 +109,15 @@ pure function new_datetime_from_string(string) result(datetime)
    type(toml_date) :: date
    type(toml_time) :: time
 
-   integer :: it, tmp, first
+   integer :: it, tmp, first, temp, temp2
    character(*, tfc), parameter :: num = "0123456789"
    integer, allocatable :: msec(:)
 
    first = 0
 
-   if (all([string(first+5:first+5), string(first+8:first+8)] == "-")) then
+   temp = first+5
+   temp2 = first+8
+   if (all([string(temp:temp), string(temp2:temp2)] == "-")) then
       date%year = 0
       do it = first + 1, first + 4
          tmp = scan(num, string(it:it)) - 1
@@ -142,7 +144,9 @@ pure function new_datetime_from_string(string) result(datetime)
    end if
 
    if (first >= len(string)) return
-   if (all([string(first+3:first+3), string(first+6:first+6)] == ":")) then
+   temp = first+3
+   temp2 = first+6
+   if (all([string(temp:temp), string(temp2:temp2)] == ":")) then
       time%hour = 0
       do it = first + 1, first + 2
          tmp = scan(num, string(it:it)) - 1
