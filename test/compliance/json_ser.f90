@@ -82,6 +82,7 @@ subroutine visit_keyval(visitor, keyval)
    integer(tfi), pointer :: idummy
    real(tfr), pointer :: fdummy
    logical, pointer :: ldummy
+   logical :: val
 
    call indent(visitor)
 
@@ -103,7 +104,8 @@ subroutine visit_keyval(visitor, keyval)
 
    case(toml_type%boolean)
       call keyval%get(ldummy)
-      if (ldummy) then
+      val = ldummy
+      if (val) then
          write(visitor%unit, '(a)', advance='no') &
             &  '{"type": "bool", "value": "true"}'
       else

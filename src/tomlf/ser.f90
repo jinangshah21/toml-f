@@ -264,6 +264,7 @@ subroutine visit_keyval(visitor, keyval)
    integer(tfi), pointer :: ival
    real(tfr), pointer :: rval
    logical, pointer :: lval
+   logical :: value
 
    call keyval%get_key(key)
 
@@ -279,7 +280,8 @@ subroutine visit_keyval(visitor, keyval)
       str = to_string(rval)
    case(toml_type%boolean)
       call keyval%get(lval)
-      if (lval) then
+      value = lval
+      if (value) then
          str = "true"
       else
          str = "false"
@@ -316,6 +318,7 @@ recursive subroutine visit_array(visitor, array)
    integer(tfi), pointer :: ival
    real(tfr), pointer :: rval
    logical, pointer :: lval
+   logical :: value
    integer :: i, n
 
    if (visitor%inline_array) visitor%output = visitor%output // " ["
@@ -337,7 +340,8 @@ recursive subroutine visit_array(visitor, array)
             str = to_string(rval)
          case(toml_type%boolean)
             call ptr%get(lval)
-            if (lval) then
+            value = lval
+            if (value) then
                str = "true"
             else
                str = "false"
