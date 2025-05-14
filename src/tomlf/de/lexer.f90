@@ -672,7 +672,7 @@ subroutine next_integer(lexer, token)
    !> Current lexeme
    type(toml_token), intent(inout) :: token
 
-   character(*, tfc), parameter :: toml_base(4) = [&
+   character(*, kind=tfc), parameter :: toml_base(4) = [&
       & "0123456789abcdefABCDEF", &
       & "0123456789000000000000", &
       & "0123456700000000000000", &
