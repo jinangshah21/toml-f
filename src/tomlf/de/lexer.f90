@@ -249,7 +249,7 @@ subroutine fill_buffer(lexer)
    class(toml_lexer), intent(inout) :: lexer
 
    type(toml_token) :: token
-   integer :: stack_top, it
+   integer :: stack_top, it, temp
 
    lexer%buffer = 0
    lexer%context%top = 0
@@ -266,7 +266,8 @@ subroutine fill_buffer(lexer)
       do it = lexer%top, stack_top + 1, -1
          select case(lexer%stack(it)%scope)
          case(lexer_scope%table, lexer_scope%array)
-            lexer%context%token(lexer%stack(it)%token)%kind = token_kind%unclosed
+            temp = lexer%stack(it)%token
+            lexer%context%token(temp)%kind = token_kind%unclosed
          end select
       end do
    end if
@@ -1402,29 +1403,34 @@ pure subroutine push_back(lexer, scope, token)
    type(toml_lexer), intent(inout) :: lexer
    integer, intent(in) :: scope
    integer, intent(in) :: token
+   integer :: temp
 
    lexer%top = lexer%top + 1
+   temp = lexer%top
    if (lexer%top > size(lexer%stack)) call resize(lexer%stack)
-   lexer%stack(lexer%top) = stack_item(scope, token)
+   lexer%stack(temp) = stack_item(scope, token)
 end subroutine push_back
 
 !> Pop a scope from the lexer stack in case the topmost scope matches the requested scope
 subroutine pop(lexer, scope)
    type(toml_lexer), intent(inout) :: lexer
    integer, intent(in) :: scope
+   integer :: temp
 
    if (lexer%top > 0) then
-      if (lexer%stack(lexer%top)%scope == scope) lexer%top = lexer%top - 1
+      temp = lexer%top
+      if (lexer%stack(temp)%scope == scope) lexer%top = lexer%top - 1
    end if
 end subroutine pop
 
 !> Peek at the topmost scope on the lexer stack
 pure function view_scope(lexer) result(scope)
    type(toml_lexer), intent(in) :: lexer
-   integer :: scope
+   integer :: scope, temp
 
    if (lexer%top > 0) then
-      scope = lexer%stack(lexer%top)%scope
+      temp = lexer%top
+      scope = lexer%stack(temp)%scope
    else
       scope = lexer_scope%table
    end if
