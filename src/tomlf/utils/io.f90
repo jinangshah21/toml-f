@@ -28,6 +28,7 @@ subroutine read_whole_file(filename, string, stat)
    character(*, tfc), intent(in) :: filename
    !> Array of characters representing the file
    character(:, tfc), allocatable, intent(out) :: string
+   character(:, tfc), allocatable :: temp
    !> Error status
    integer, intent(out) :: stat
 
@@ -42,9 +43,11 @@ subroutine read_whole_file(filename, string, stat)
    if (stat == 0) then
       ! inquire(unit=io, pos=length)
       allocate(character(length-1, tfc) :: string, stat=stat)
+      allocate(character(length-1, tfc) :: temp, stat=stat)
    end if
    if (stat == 0) then
-      read(io, pos=1, iostat=stat) string(:length-1)
+      read(io, pos=1, iostat=stat) temp
+      string(:length-1) = temp
    end if
    if (stat == 0) then
       close(io)
