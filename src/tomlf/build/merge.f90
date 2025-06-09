@@ -131,56 +131,56 @@ recursive subroutine merge_table(lhs, rhs, config)
       if (allocated(tmp)) deallocate(tmp)
       call rhs%get(list(i)%key, ptr1)
       has_key = lhs%has_key(list(i)%key)
-      select type(ptr1)
-      class is(toml_keyval)
-         if (has_key .and. policy%keyval == merge_policy%overwrite) then
-            call lhs%delete(list(i)%key)
-            has_key = .false.
-         end if
-         if (.not.has_key) then
-            allocate(tmp, source=ptr1)
-            kv => cast_to_keyval(tmp)
-            kv%origin_value = 0
-            kv%origin = 0
-            call lhs%push_back(tmp, stat)
-         end if
+      ! select type(ptr1)
+      ! class is(toml_keyval)
+      !    if (has_key .and. policy%keyval == merge_policy%overwrite) then
+      !       call lhs%delete(list(i)%key)
+      !       has_key = .false.
+      !    end if
+      !    if (.not.has_key) then
+      !       allocate(tmp, source=ptr1)
+      !       kv => cast_to_keyval(tmp)
+      !       kv%origin_value = 0
+      !       kv%origin = 0
+      !       call lhs%push_back(tmp, stat)
+      !    end if
 
-      class is(toml_array)
-         if (has_key .and. policy%array == merge_policy%overwrite) then
-            call lhs%delete(list(i)%key)
-            has_key = .false.
-         end if
-         if (has_key .and. policy%array == merge_policy%append) then
-            call lhs%get(list(i)%key, ptr2)
-            select type(ptr2)
-            class is(toml_array)
-               call merge_array(ptr2, ptr1)
-            end select
-         end if
-         if (.not.has_key) then
-            allocate(tmp, source=ptr1)
-            tmp%origin = 0
-            call lhs%push_back(tmp, stat)
-         end if
+      ! class is(toml_array)
+      !    if (has_key .and. policy%array == merge_policy%overwrite) then
+      !       call lhs%delete(list(i)%key)
+      !       has_key = .false.
+      !    end if
+      !    if (has_key .and. policy%array == merge_policy%append) then
+      !       call lhs%get(list(i)%key, ptr2)
+      !       select type(ptr2)
+      !       class is(toml_array)
+      !          call merge_array(ptr2, ptr1)
+      !       end select
+      !    end if
+      !    if (.not.has_key) then
+      !       allocate(tmp, source=ptr1)
+      !       tmp%origin = 0
+      !       call lhs%push_back(tmp, stat)
+      !    end if
 
-      class is(toml_table)
-         if (has_key .and. policy%table == merge_policy%overwrite) then
-            call lhs%delete(list(i)%key)
-            has_key = .false.
-         end if
-         if (has_key .and. policy%table == merge_policy%append) then
-            call lhs%get(list(i)%key, ptr2)
-            select type(ptr2)
-            class is(toml_table)
-               call merge_table(ptr2, ptr1, policy)
-            end select
-         end if
-         if (.not.has_key) then
-            allocate(tmp, source=ptr1)
-            tmp%origin = 0
-            call lhs%push_back(tmp, stat)
-         end if
-      end select
+      ! class is(toml_table)
+      !    if (has_key .and. policy%table == merge_policy%overwrite) then
+      !       call lhs%delete(list(i)%key)
+      !       has_key = .false.
+      !    end if
+      !    if (has_key .and. policy%table == merge_policy%append) then
+      !       call lhs%get(list(i)%key, ptr2)
+      !       select type(ptr2)
+      !       class is(toml_table)
+      !          call merge_table(ptr2, ptr1, policy)
+      !       end select
+      !    end if
+      !    if (.not.has_key) then
+      !       allocate(tmp, source=ptr1)
+      !       tmp%origin = 0
+      !       call lhs%push_back(tmp, stat)
+      !    end if
+      ! end select
    end do
 
 end subroutine merge_table

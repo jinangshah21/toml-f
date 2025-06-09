@@ -144,12 +144,12 @@ subroutine visit(self, val)
    !> TOML value to visit
    class(toml_value), intent(inout) :: val
 
-   select type(val)
-   class is(toml_array)
-      call visit_array(self, val)
-   class is(toml_table)
-      call visit_table(self, val)
-   end select
+   ! select type(val)
+   ! class is(toml_array)
+      ! call visit_array(self, val)
+   ! class is(toml_table)
+   !    call visit_table(self, val)
+   ! end select
 end subroutine visit
 
 !> Visit a TOML array
