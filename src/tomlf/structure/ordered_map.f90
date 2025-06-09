@@ -133,7 +133,7 @@ subroutine push_back(self, val)
    end if
 
    self%n = self%n + 1
-   call move_alloc(val, self%lst(self%n)%val)
+   ! call move_alloc(val, self%lst(self%n)%val)
 
 end subroutine push_back
 
@@ -188,9 +188,9 @@ subroutine pop(self, key, val)
    end do
 
    if (idx > 0) then
-      call move_alloc(self%lst(idx)%val, val)
+      ! call move_alloc(self%lst(idx)%val, val)
       do i = idx+1, self%n
-         call move_alloc(self%lst(i)%val, self%lst(i-1)%val)
+         ! call move_alloc(self%lst(i)%val, self%lst(i-1)%val)
       end do
       self%n = self%n - 1
    end if

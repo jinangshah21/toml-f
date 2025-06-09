@@ -142,7 +142,7 @@ subroutine push_back(self, val)
    end if
 
    self%n = self%n + 1
-   call move_alloc(val, self%lst(self%n)%val)
+   ! call move_alloc(val, self%lst(self%n)%val)
 
 end subroutine push_back
 
@@ -159,9 +159,9 @@ subroutine shift(self, val)
    integer :: i
 
    if (self%n > 0) then
-      call move_alloc(self%lst(1)%val, val)
+      ! call move_alloc(self%lst(1)%val, val)
       do i = 2, self%n
-         call move_alloc(self%lst(i)%val, self%lst(i-1)%val)
+         ! call move_alloc(self%lst(i)%val, self%lst(i-1)%val)
       end do
       self%n = self%n - 1
    end if
@@ -179,7 +179,7 @@ subroutine pop(self, val)
    class(toml_value), allocatable, intent(out) :: val
 
    if (self%n > 0) then
-      call move_alloc(self%lst(self%n)%val, val)
+      ! call move_alloc(self%lst(self%n)%val, val)
       self%n = self%n - 1
    end if
 
