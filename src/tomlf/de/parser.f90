@@ -67,7 +67,7 @@ subroutine new_parser(parser, config)
    type(toml_parser_config), intent(in), optional :: config
 
    parser%token = toml_token(token_kind%newline, 0, 0)
-   parser%root = toml_table()
+   ! parser%root = toml_table()
    parser%current => parser%root
    parser%config = toml_parser_config()
    if (present(config)) parser%config = config
