@@ -288,16 +288,16 @@ pure function get_type(self) result(value_type)
    select type(val => self%val)
    class default
       value_type = toml_type%invalid
-   type is(float_value)
-      value_type = toml_type%float
-   type is(integer_value)
-      value_type = toml_type%int
-   type is(boolean_value)
-      value_type = toml_type%boolean
-   type is(datetime_value)
-      value_type = toml_type%datetime
-   type is(string_value)
-      value_type = toml_type%string
+   ! type is(float_value)
+      ! value_type = toml_type%float
+   ! type is(integer_value)
+      ! value_type = toml_type%int
+   ! type is(boolean_value)
+   !    value_type = toml_type%boolean
+   ! type is(datetime_value)
+   !    value_type = toml_type%datetime
+   ! type is(string_value)
+   !    value_type = toml_type%string
    end select
 end function get_type
 

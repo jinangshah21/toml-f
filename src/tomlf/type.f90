@@ -109,8 +109,8 @@ subroutine add_table_to_table(table, key, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_table)
-         ptr => tmp
+      ! type is(toml_table)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
@@ -179,8 +179,8 @@ subroutine add_array_to_table(table, key, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_array)
-         ptr => tmp
+      ! type is(toml_array)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
@@ -249,8 +249,8 @@ subroutine add_keyval_to_table(table, key, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_keyval)
-         ptr => tmp
+      ! type is(toml_keyval)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
@@ -315,8 +315,8 @@ subroutine add_table_to_array(array, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_table)
-         ptr => tmp
+      ! type is(toml_table)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
@@ -362,8 +362,8 @@ subroutine add_array_to_array(array, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_array)
-         ptr => tmp
+      ! type is(toml_array)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
@@ -408,8 +408,8 @@ subroutine add_keyval_to_array(array, ptr, stat)
       end if
 
       select type(tmp)
-      type is(toml_keyval)
-         ptr => tmp
+      ! type is(toml_keyval)
+      !    ptr => tmp
       class default
          istat = toml_stat%fatal
       end select
