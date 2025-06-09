@@ -53,7 +53,7 @@ module tomlf_ser
       character(:), allocatable :: output
 
       !> Configuration for serializer
-      type(toml_ser_config) :: config = toml_ser_config()
+      type(toml_ser_config) :: config
 
       !> Special mode for printing array of tables
       logical, private :: array_of_tables = .false.
@@ -518,7 +518,7 @@ subroutine resize(stack, n)
    end if
 
    if (allocated(stack)) then
-      call move_alloc(stack, tmp)
+      ! call move_alloc(stack, tmp)
       allocate(stack(m))
 
       m = min(size(tmp), m)

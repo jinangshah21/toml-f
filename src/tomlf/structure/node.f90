@@ -53,12 +53,12 @@ subroutine resize(list, n)
 
 
    if (allocated(list)) then
-      call move_alloc(list, tmp)
+      ! call move_alloc(list, tmp)
       allocate(list(n))
 
       do i = 1, min(size(tmp), n)
          if (allocated(tmp(i)%val)) then
-            call move_alloc(tmp(i)%val, list(i)%val)
+            ! call move_alloc(tmp(i)%val, list(i)%val)
          end if
       end do
 

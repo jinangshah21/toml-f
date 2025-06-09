@@ -72,7 +72,7 @@ subroutine json_load_file(object, filename, config, context, error)
       call parse(lexer, table, config, context, error)
       if (allocated(table)) call prune(object, table)
    else
-      if (present(error)) call move_alloc(error_, error)
+      ! if (present(error)) call move_alloc(error_, error)
    end if
 end subroutine json_load_file
 
@@ -98,7 +98,7 @@ subroutine json_load_unit(object, io, config, context, error)
       call parse(lexer, table, config, context, error)
       if (allocated(table)) call prune(object, table)
    else
-      if (present(error)) call move_alloc(error_, error)
+      ! if (present(error)) call move_alloc(error_, error)
    end if
 end subroutine json_load_unit
 
@@ -243,7 +243,7 @@ subroutine prune_value(val, table, str)
    if (allocated(table%key)) then
       val%key = table%key
    else
-      deallocate(val%key)
+      ! deallocate(val%key)
    end if
 
    select type(val)

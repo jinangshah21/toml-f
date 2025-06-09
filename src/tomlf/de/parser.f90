@@ -32,7 +32,7 @@ module tomlf_de_parser
    !> Configuration of the TOML parser
    type :: toml_parser_config
       !> Use colorful output for diagnostics
-      type(toml_terminal) :: color = toml_terminal()
+      type(toml_terminal) :: color
       !> Record all tokens
       integer :: context_detail = 0
    end type toml_parser_config
@@ -102,14 +102,14 @@ subroutine parse(lexer, table, config, context, error)
    type(toml_parser) :: parser
 
    call new_parser(parser, config)
-   call parse_root(parser, lexer)
+   ! call parse_root(parser, lexer)
 
    if (present(error) .and. allocated(parser%diagnostic)) then
       call make_error(error, parser%diagnostic, lexer, parser%config%color)
    end if
    if (allocated(parser%diagnostic)) return
 
-   call move_alloc(parser%root, table)
+   ! call move_alloc(parser%root, table)
 
    if (present(context)) then
       context = parser%context
@@ -404,7 +404,7 @@ contains
       end if
 
       if (allocated(stack)) then
-         call move_alloc(stack, tmp)
+         ! call move_alloc(stack, tmp)
          allocate(stack(m))
 
          m = min(size(tmp), m)

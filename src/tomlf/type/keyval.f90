@@ -187,7 +187,7 @@ subroutine get_string(self, val)
    !> Value to be assigned
    character(:, tfc), pointer, intent(out) :: val
 
-   val => cast_string(self%val)
+   ! val => cast_string(self%val)
 end subroutine get_string
 
 
@@ -204,7 +204,7 @@ subroutine set_float(self, val)
 
    allocate(tmp)
    tmp%raw = val
-   call move_alloc(tmp, self%val)
+   ! call move_alloc(tmp, self%val)
 end subroutine set_float
 
 
@@ -221,7 +221,7 @@ subroutine set_integer(self, val)
 
    allocate(tmp)
    tmp%raw = val
-   call move_alloc(tmp, self%val)
+   ! call move_alloc(tmp, self%val)
 end subroutine set_integer
 
 
@@ -238,7 +238,7 @@ subroutine set_boolean(self, val)
 
    allocate(tmp)
    tmp%raw = val
-   call move_alloc(tmp, self%val)
+   ! call move_alloc(tmp, self%val)
 end subroutine set_boolean
 
 
@@ -255,7 +255,7 @@ subroutine set_datetime(self, val)
 
    allocate(tmp)
    tmp%raw = val
-   call move_alloc(tmp, self%val)
+   ! call move_alloc(tmp, self%val)
 end subroutine set_datetime
 
 
@@ -272,7 +272,7 @@ subroutine set_string(self, val)
 
    allocate(tmp)
    tmp%raw = val
-   call move_alloc(tmp, self%val)
+   ! call move_alloc(tmp, self%val)
 end subroutine set_string
 
 

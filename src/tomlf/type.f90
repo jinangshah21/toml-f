@@ -430,7 +430,7 @@ subroutine new_table_(self)
 
    allocate(val)
    call new_table(val)
-   call move_alloc(val, self)
+   ! call move_alloc(val, self)
 
 end subroutine new_table_
 
@@ -445,7 +445,7 @@ subroutine new_array_(self)
 
    allocate(val)
    call new_array(val)
-   call move_alloc(val, self)
+   ! call move_alloc(val, self)
 
 end subroutine new_array_
 
@@ -460,7 +460,7 @@ subroutine new_keyval_(self)
 
    allocate(val)
    call new_keyval(val)
-   call move_alloc(val, self)
+   ! call move_alloc(val, self)
 
 end subroutine new_keyval_
 

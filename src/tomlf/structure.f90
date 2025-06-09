@@ -49,7 +49,7 @@ subroutine new_list_structure(self)
 
       allocate(list)
       call new_array_list(list)
-      call move_alloc(list, self)
+      ! call move_alloc(list, self)
    end block
 
 end subroutine new_list_structure
@@ -66,7 +66,7 @@ subroutine new_map_structure(self)
 
       allocate(map)
       call new_ordered_map(map)
-      call move_alloc(map, self)
+      ! call move_alloc(map, self)
    end block
 
 end subroutine new_map_structure

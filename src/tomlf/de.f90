@@ -99,7 +99,7 @@ subroutine toml_load_file(table, filename, config, context, error)
    if (.not.allocated(error_)) then
       call parse(lexer, table, config, context, error)
    else
-      if (present(error)) call move_alloc(error_, error)
+      ! if (present(error)) call move_alloc(error_, error)
    end if
 end subroutine toml_load_file
 
@@ -123,7 +123,7 @@ subroutine toml_load_unit(table, io, config, context, error)
    if (.not.allocated(error_)) then
       call parse(lexer, table, config, context, error)
    else
-      if (present(error)) call move_alloc(error_, error)
+      ! if (present(error)) call move_alloc(error_, error)
    end if
 end subroutine toml_load_unit
 
