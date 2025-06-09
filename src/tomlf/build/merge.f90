@@ -78,25 +78,52 @@ pure function new_merge_config(table, array, keyval) result(config)
    !> Merge policy
    type(toml_merge_config) :: config
 
-   if (present(table)) call set_enum(config%table, table)
-   if (present(array)) call set_enum(config%array, array)
-   if (present(keyval)) call set_enum(config%keyval, keyval)
-
-contains
-
-   pure subroutine set_enum(enum, str)
-      character(*), intent(in) :: str
-      integer, intent(inout) :: enum
-
-      select case(str)
+   if (present(table)) then 
+      select case(table)
       case("append")
-         enum = merge_policy%append
+         config%table = merge_policy%append
       case("overwrite")
-         enum = merge_policy%overwrite
+         config%table = merge_policy%overwrite
       case("preserve")
-         enum = merge_policy%preserve
+         config%table = merge_policy%preserve
       end select
-   end subroutine set_enum
+   end if
+   if (present(array)) then 
+      select case(array)
+      case("append")
+         config%array = merge_policy%append
+      case("overwrite")
+         config%array = merge_policy%overwrite
+      case("preserve")
+         config%array = merge_policy%preserve
+      end select
+   end if
+     if (present(keyval)) then 
+      select case(keyval)
+      case("append")
+         config%keyval = merge_policy%append
+      case("overwrite")
+         config%keyval = merge_policy%overwrite
+      case("preserve")
+         config%keyval = merge_policy%preserve
+      end select
+   end if
+
+! contains
+
+!    pure subroutine set_enum(enum, str)
+!       character(*), intent(in) :: str
+!       integer, intent(inout) :: enum
+
+!       select case(str)
+!       case("append")
+!          enum = merge_policy%append
+!       case("overwrite")
+!          enum = merge_policy%overwrite
+!       case("preserve")
+!          enum = merge_policy%preserve
+!       end select
+!    end subroutine set_enum
 
 end function new_merge_config
 
