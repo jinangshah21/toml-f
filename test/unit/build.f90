@@ -376,6 +376,8 @@ subroutine table_int_i8(error)
    type(error_type), allocatable, intent(out) :: error
 
    type(toml_table) :: table
+   type(toml_key) :: tmp_key(2)
+   type(toml_path) :: tmp_path
    integer :: ii
    integer(tf_i8), parameter :: in1 = 1_tf_i8, in2 = huge(in1), in3 = -huge(in1)
    integer(tf_i8) :: val
@@ -396,8 +398,10 @@ subroutine table_int_i8(error)
    if (allocated(error)) return
 
    call table%delete("int")
-   call set_value(table, toml_path([toml_key("int"), toml_key("sub")]), in1, stat=stat)
-   call get_value(table, toml_path([toml_key("int"), toml_key("sub")]), val, stat=stat)
+   tmp_key = [toml_key("int"), toml_key("sub")]
+   tmp_path%path = tmp_key
+   call set_value(table, tmp_path, in1, stat=stat)
+   call get_value(table, tmp_path, val, stat=stat)
 
    call check(error, val, in1)
    if (allocated(error)) return
@@ -496,8 +500,10 @@ subroutine table_datetime(error)
    type(toml_datetime) :: val, ts1, ts2
    integer :: stat
 
-   ts1 = toml_datetime(toml_date(2022,  7, 31), toml_time(13, 51, 42))
-   ts2 = toml_datetime(toml_date(2019, 12, 17), toml_time(18, 26, 59))
+   ts1%date = toml_date(2022,  7, 31)
+   ts1%time = toml_time(13, 51, 42)
+   ts2%date = toml_date(2019, 12, 17)
+   ts2%time = toml_time(18, 26, 59)
 
    table = toml_table()
    call set_value(table, toml_key("datetime"), ts1, stat=stat)
@@ -981,21 +987,24 @@ subroutine array_datetime(error)
    type(error_type), allocatable, intent(out) :: error
 
    type(toml_array) :: array
-   type(toml_datetime) :: val, ts
+   type(toml_datetime) :: val, ts, tmp_dt
    type(toml_datetime), allocatable :: vals(:)
    integer :: ii
    integer :: stat
 
    array = toml_array()
    do ii = 1, 10
-      call set_value(array, ii, toml_datetime(toml_date(2022, ii, 7), toml_time()), stat=stat)
+      tmp_dt%date = toml_date(2022, ii, 7)
+      tmp_dt%time = toml_time()
+      call set_value(array, ii, tmp_dt, stat=stat)
    end do
    call check(error, len(array), 10)
    if (allocated(error)) return
 
    ii = 3
    call get_value(array, ii, val, stat=stat)
-   ts = toml_datetime(toml_date(2022, ii, 7), toml_time())
+   ts%date = toml_date(2022, ii, 7)
+   ts%time = toml_time()
    call check(error, val == ts, &
       & "Expected '"//to_string(ts)//"' but got '"//to_string(val)//"'")
    if (allocated(error)) return
@@ -1005,7 +1014,12 @@ subroutine array_datetime(error)
       & "Expected '"//to_string(val)//"' but got '"//to_string(vals(ii))//"'")
    if (allocated(error)) return
 
-   vals = [(toml_datetime(toml_date(2022, ii, 8), toml_time()), ii = 1, 9)]
+   do ii = 1, 9
+      tmp_dt%date = toml_date(2022, ii, 8)
+      tmp_dt%time = toml_time()
+      vals(ii) = tmp_dt
+   end do
+   ! vals = [(toml_datetime(toml_date(2022, ii, 8), toml_time()), ii = 1, 9)]
    call set_value(array, vals, stat=stat)
    call check(error, len(array), 9)
    if (allocated(error)) return
