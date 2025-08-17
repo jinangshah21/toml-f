@@ -138,7 +138,8 @@ recursive subroutine merge_table(lhs, rhs, config)
             has_key = .false.
          end if
          if (.not.has_key) then
-            allocate(tmp, source=ptr1)
+            allocate(tmp)
+            tmp = ptr1
             kv => cast_to_keyval(tmp)
             kv%origin_value = 0
             kv%origin = 0
@@ -158,7 +159,8 @@ recursive subroutine merge_table(lhs, rhs, config)
             end select
          end if
          if (.not.has_key) then
-            allocate(tmp, source=ptr1)
+            allocate(tmp)
+            tmp = ptr1
             tmp%origin = 0
             call lhs%push_back(tmp, stat)
          end if
@@ -176,7 +178,8 @@ recursive subroutine merge_table(lhs, rhs, config)
             end select
          end if
          if (.not.has_key) then
-            allocate(tmp, source=ptr1)
+            allocate(tmp)
+            tmp = ptr1
             tmp%origin = 0
             call lhs%push_back(tmp, stat)
          end if
@@ -204,7 +207,8 @@ recursive subroutine merge_array(lhs, rhs)
    do i = 1, n
       call rhs%get(i, ptr)
       if (allocated(tmp)) deallocate(tmp)
-      allocate(tmp, source=ptr)
+      allocate(tmp)
+      tmp = ptr
       call lhs%push_back(tmp, stat)
    end do
 
