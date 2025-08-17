@@ -32,7 +32,7 @@ module tomlf_de_parser
    !> Configuration of the TOML parser
    type :: toml_parser_config
       !> Use colorful output for diagnostics
-      type(toml_terminal) :: color = toml_terminal()
+      type(toml_terminal) :: color
       !> Record all tokens
       integer :: context_detail = 0
    end type toml_parser_config
