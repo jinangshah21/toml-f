@@ -284,8 +284,9 @@ pure function get_type(self) result(value_type)
 
    !> Value type
    integer :: value_type
-
-   select type(val => self%val)
+   class(generic_value), pointer :: val
+   val => self%val
+   select type(val)
    class default
       value_type = toml_type%invalid
    type is(float_value)
@@ -350,7 +351,7 @@ function cast_string(val) result(ptr)
    class(generic_value), intent(in), target :: val
    character(:, tfc), pointer :: ptr
 
-   nullify(ptr)
+   ! nullify(ptr)
    select type(val)
    type is(string_value)
       ptr => val%raw
