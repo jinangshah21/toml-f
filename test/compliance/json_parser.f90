@@ -239,7 +239,7 @@ subroutine prune_value(val, table, str)
    real(tfr) :: fval
 
    call table%get("value", ptr)
-   allocate(val)
+   allocate(toml_table :: val)
    val = ptr
    if (allocated(table%key)) then
       val%key = table%key
