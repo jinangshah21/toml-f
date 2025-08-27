@@ -138,7 +138,7 @@ recursive subroutine merge_table(lhs, rhs, config)
             has_key = .false.
          end if
          if (.not.has_key) then
-            allocate(tmp)
+            allocate(toml_table :: tmp)
             tmp = ptr1
             kv => cast_to_keyval(tmp)
             kv%origin_value = 0
@@ -159,7 +159,7 @@ recursive subroutine merge_table(lhs, rhs, config)
             end select
          end if
          if (.not.has_key) then
-            allocate(tmp)
+            allocate(toml_table :: tmp)
             tmp = ptr1
             tmp%origin = 0
             call lhs%push_back(tmp, stat)
@@ -178,7 +178,7 @@ recursive subroutine merge_table(lhs, rhs, config)
             end select
          end if
          if (.not.has_key) then
-            allocate(tmp)
+            allocate(toml_table :: tmp)
             tmp = ptr1
             tmp%origin = 0
             call lhs%push_back(tmp, stat)
@@ -207,7 +207,7 @@ recursive subroutine merge_array(lhs, rhs)
    do i = 1, n
       call rhs%get(i, ptr)
       if (allocated(tmp)) deallocate(tmp)
-      allocate(tmp)
+      allocate(toml_table :: tmp)
       tmp = ptr
       call lhs%push_back(tmp, stat)
    end do
