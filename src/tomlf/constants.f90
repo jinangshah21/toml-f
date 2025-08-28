@@ -52,13 +52,13 @@ module tomlf_constants
    type :: enum_escape
 
       !> Backslash is used to escape other characters
-      character(kind=tfc, len=1) :: backslash = tfc_'\'
+      character(kind=tfc, len=1) :: backslash = '\'
 
       !> Double quotes signal strings with escape characters enabled
-      character(kind=tfc, len=1) :: dquote = tfc_'"'
+      character(kind=tfc, len=1) :: dquote = '"'
 
       !> Single quotes signal strings without escape characters enabled
-      character(kind=tfc, len=1) :: squote = tfc_''''
+      character(kind=tfc, len=1) :: squote = ''''
 
       !> Newline character
       character(kind=tfc, len=1) :: newline = achar(10, kind=tfc)
