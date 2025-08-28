@@ -44,28 +44,28 @@ module tomlf_de_lexer
 
    !> Possible characters encountered in a lexeme
    type :: enum_char
-      character(1, tfc) :: space = tfc_" "
-      character(1, tfc) :: hash = tfc_"#"
-      character(1, tfc) :: squote = tfc_"'"
-      character(3, tfc) :: squote3 = repeat(tfc_"'", 3)
-      character(1, tfc) :: dquote = tfc_""""
-      character(3, tfc) :: dquote3 = repeat(tfc_"""", 3)
-      character(1, tfc) :: backslash = tfc_"\"
-      character(1, tfc) :: dot = tfc_"."
-      character(1, tfc) :: comma = tfc_","
-      character(1, tfc) :: equal = tfc_"="
-      character(1, tfc) :: lbrace = tfc_"{"
-      character(1, tfc) :: rbrace = tfc_"}"
-      character(1, tfc) :: lbracket = tfc_"["
-      character(1, tfc) :: rbracket = tfc_"]"
+      character(1, tfc) :: space = " "
+      character(1, tfc) :: hash = "#"
+      character(1, tfc) :: squote = "'"
+      character(3, tfc) :: squote3 = repeat("'", 3)
+      character(1, tfc) :: dquote = """"
+      character(3, tfc) :: dquote3 = repeat("""", 3)
+      character(1, tfc) :: backslash = "\"
+      character(1, tfc) :: dot = "."
+      character(1, tfc) :: comma = ","
+      character(1, tfc) :: equal = "="
+      character(1, tfc) :: lbrace = "{"
+      character(1, tfc) :: rbrace = "}"
+      character(1, tfc) :: lbracket = "["
+      character(1, tfc) :: rbracket = "]"
       character(1, tfc) :: newline = achar(10, kind=tfc)
       character(1, tfc) :: formfeed = achar(12, kind=tfc)
       character(1, tfc) :: carriage_return = achar(13, kind=tfc)
       character(1, tfc) :: bspace = achar(8, kind=tfc)
       character(1, tfc) :: tab = achar(9, kind=tfc)
-      character(1, tfc) :: plus = tfc_"+"
-      character(1, tfc) :: minus = tfc_"-"
-      character(12, tfc) :: literal = tfc_"0123456789-_"
+      character(1, tfc) :: plus = "+"
+      character(1, tfc) :: minus = "-"
+      character(12, tfc) :: literal = "0123456789-_"
    end type enum_char
 
    !> Actual enumerator for possible characters
