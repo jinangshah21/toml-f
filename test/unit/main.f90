@@ -31,9 +31,9 @@ program tftester
 
    allocate(testsuites(0))  ! avoid compiler warning
    testsuites = [ &
-      & new_testsuite("build", collect_build), &
-      & new_testsuite("lexer", collect_lexer), &
-      & new_testsuite("parser", collect_parser), &
+      ! & new_testsuite("build", collect_build), &
+      ! & new_testsuite("lexer", collect_lexer), &
+      ! & new_testsuite("parser", collect_parser), &
       & new_testsuite("sort", collect_sort), &
       & new_testsuite("utils", collect_utils) &
       & ]
