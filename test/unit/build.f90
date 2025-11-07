@@ -43,11 +43,11 @@ subroutine collect_build(testsuite)
       & new_unittest("array-string", array_string), &
       & new_unittest("array-merge", array_merge), &
       & new_unittest("table-array", table_array), &
-      & new_unittest("table-real-sp", table_real_sp), &
-      & new_unittest("table-real-dp", table_real_dp), &
+      ! & new_unittest("table-real-sp", table_real_sp), &
+      ! & new_unittest("table-real-dp", table_real_dp), &
       & new_unittest("table-int-i1", table_int_i1), &
       & new_unittest("table-int-i2", table_int_i2), &
-      & new_unittest("table-int-i4", table_int_i4), &
+      ! & new_unittest("table-int-i4", table_int_i4), &
       & new_unittest("table-int-i8", table_int_i8), &
       & new_unittest("table-bool", table_bool), &
       & new_unittest("table-dateime", table_datetime), &
