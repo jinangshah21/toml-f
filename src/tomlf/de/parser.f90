@@ -756,23 +756,25 @@ end subroutine make_error
 !> Allows to record the tokens for keys and values in the parser context
 subroutine next_token(parser, lexer)
    !> Instance of the parser
-   class(toml_parser), intent(inout) :: parser
+   class(toml_parser), intent(inout), target :: parser
    !> Instance of the lexer
    class(toml_lexer), intent(inout) :: lexer
+   type(toml_token), pointer :: tmp_token
 
-   call lexer%next(parser%token)
+   tmp_token => parser%token
+   call lexer%next(tmp_token)
 
    select case(parser%token%kind)
    case(token_kind%keypath, token_kind%string, token_kind%literal, token_kind%int, &
          & token_kind%float, token_kind%bool, token_kind%datetime)
-      call parser%context%push_back(parser%token)
+      call parser%context%push_back(tmp_token)
    case(token_kind%newline, token_kind%dot, token_kind%comma, token_kind%equal, &
          & token_kind%lbrace, token_kind%rbrace, token_kind%lbracket, token_kind%rbracket)
       if (parser%config%context_detail > 0) &
-         call parser%context%push_back(parser%token)
+         call parser%context%push_back(tmp_token)
    case default
       if (parser%config%context_detail > 1) &
-         call parser%context%push_back(parser%token)
+         call parser%context%push_back(tmp_token)
    end select
 end subroutine next_token
 
