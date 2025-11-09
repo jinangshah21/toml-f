@@ -187,8 +187,7 @@ subroutine parse_table_header(parser, lexer)
    key = stack(top)
    top = top - 1
 
-   call walk_stack(parser, top, stack)
-
+   call walk_stack(parser, top, stack, lexer)
    if (array_of_tables) then
       call parser%current%get(key%key, ptr)
       if (associated(ptr)) then
@@ -326,13 +325,14 @@ contains
 
    end subroutine fill_stack
 
-   !> Walk the key stack to fetch the correct table, create implicit tables as necessary
-   subroutine walk_stack(parser, top, stack)
+   ! !> Walk the key stack to fetch the correct table, create implicit tables as necessary
+   subroutine walk_stack(parser, top, stack, lexer)
       type(toml_parser), intent(inout), target :: parser
       !> Depth of the table key stack
       integer, intent(in) :: top
       !> Stack of all keys in the table header
       type(toml_key), intent(in), target :: stack(:)
+      class(toml_lexer), intent(inout) :: lexer
 
       type(toml_table), pointer :: table, tmp_tbl
       type(toml_array), pointer :: array
