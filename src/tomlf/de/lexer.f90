@@ -278,6 +278,7 @@ subroutine next_token(lexer, token)
    class(toml_lexer), intent(inout) :: lexer
    !> Current lexeme
    type(toml_token), intent(inout) :: token
+   logical :: tmp_log
 
    integer :: prev, pos
 
@@ -295,16 +296,20 @@ subroutine next_token(lexer, token)
 
    select case(peek(lexer, pos))
    case(char_kind%hash)
-      do while(all(peek(lexer, pos+1) /= [char_kind%carriage_return, char_kind%newline]) &
+      tmp_log = all(peek(lexer, pos+1) /= [char_kind%carriage_return, char_kind%newline])
+      do while(tmp_log &
             & .and. pos <= len(lexer%chunk))
          pos = pos + 1
+         tmp_log = all(peek(lexer, pos+1) /= [char_kind%carriage_return, char_kind%newline])
       end do
       token = toml_token(token_kind%comment, prev, pos)
 
    case(char_kind%space, char_kind%tab)
-      do while(any(match(lexer, pos+1, [char_kind%space, char_kind%tab])) &
+      tmp_log = any(match(lexer, pos+1, [char_kind%space, char_kind%tab]))
+      do while(tmp_log &
             & .and. pos <= len(lexer%chunk))
          pos = pos + 1
+         tmp_log = any(match(lexer, pos+1, [char_kind%space, char_kind%tab]))
       end do
       token = toml_token(token_kind%whitespace, prev, pos)
 
@@ -590,7 +595,7 @@ subroutine next_keypath(lexer, token)
    !> Current lexeme
    type(toml_token), intent(inout) :: token
 
-   logical :: valid
+   logical :: valid, tmp_log
    integer :: prev, pos
    character(1, tfc) :: ch
 
@@ -601,10 +606,12 @@ subroutine next_keypath(lexer, token)
    valid = (tfc_"A" <= ch .and. ch <= tfc_"Z") &
       & .or. (tfc_"a" <= ch .and. ch <= tfc_"z") &
       & .or. (verify(ch, char_kind%literal) == 0)
-   do while(verify(peek(lexer, pos+1), terminated//char_kind%dot) > 0)
+   tmp_log = verify(peek(lexer, pos+1), terminated//char_kind%dot) > 0
+   do while(tmp_log)
       pos = pos + 1
       ch = peek(lexer, pos)
 
+      tmp_log = verify(peek(lexer, pos+1), terminated//char_kind%dot) > 0
       if (tfc_"A" <= ch .and. ch <= tfc_"Z") cycle
       if (tfc_"a" <= ch .and. ch <= tfc_"z") cycle
       if (verify(ch, char_kind%literal) == 0) cycle
@@ -624,6 +631,7 @@ subroutine next_literal(lexer, token)
    type(toml_token), intent(inout) :: token
 
    integer :: prev, pos
+   logical :: tmp_log
    integer, parameter :: offset(*) = [0, 1, 2, 3, 4, 5]
    character(1, tfc), parameter :: &
       & true(4) = ["t", "r", "u", "e"], false(5) = ["f", "a", "l", "s", "e"]
@@ -659,8 +667,10 @@ subroutine next_literal(lexer, token)
    end select
 
    ! If the current token is invalid, advance to the next terminator
-   do while(verify(peek(lexer, pos+1), terminated) > 0)
+   tmp_log = verify(peek(lexer, pos+1), terminated) > 0
+   do while(tmp_log)
       pos = pos + 1
+      tmp_log = verify(peek(lexer, pos+1), terminated) > 0
    end do
    token = toml_token(token_kind%invalid, prev, pos)
 end subroutine next_literal
@@ -678,6 +688,7 @@ subroutine next_integer(lexer, token)
       & "0123456700000000000000", &
       & "0100000000000000000000"]
    integer, parameter :: b10 = 2, b16 = 1, b8 = 3, b2 = 4
+   logical :: tmp_log
 
    character(1, tfc) :: ch
    integer :: prev, pos, base
@@ -712,8 +723,10 @@ subroutine next_integer(lexer, token)
          token = toml_token(token_kind%int, prev, pos)
          return
       case default
-         do while(verify(peek(lexer, pos), terminated) > 0)
+         tmp_log = verify(peek(lexer, pos), terminated) > 0
+         do while(tmp_log)
             pos = pos + 1
+            tmp_log = verify(peek(lexer, pos), terminated) > 0
          end do
          token = toml_token(token_kind%invalid, prev, pos-1)
          return
@@ -854,7 +867,7 @@ subroutine next_datetime(lexer, token)
    !> Current lexeme
    type(toml_token), intent(inout) :: token
 
-   logical :: has_date, has_time, has_millisec, has_local, okay
+   logical :: has_date, has_time, has_millisec, has_local, okay, tmp_log
    integer :: prev, pos, it
    integer, parameter :: offset(*) = [(it, it = 0, 10)], &
       & offset_date = 10, offset_time = 8, offset_local = 6
@@ -877,8 +890,10 @@ subroutine next_datetime(lexer, token)
       pos = pos + offset_time - 1
       if (match(lexer, pos+1, char_kind%dot)) then
          it = 1
-         do while(verify(peek(lexer, pos+it+1), num) == 0)
+         tmp_log = verify(peek(lexer, pos+it+1), num) == 0
+         do while(tmp_log)
             it = it + 1
+            tmp_log = verify(peek(lexer, pos+it+1), num) == 0
          end do
          has_millisec = it > 1
          if (.not.has_millisec) then
