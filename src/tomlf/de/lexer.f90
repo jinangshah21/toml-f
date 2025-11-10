@@ -603,8 +603,8 @@ subroutine next_keypath(lexer, token)
    pos = lexer%pos
    ch = peek(lexer, pos)
 
-   valid = (tfc_"A" <= ch .and. ch <= tfc_"Z") &
-      & .or. (tfc_"a" <= ch .and. ch <= tfc_"z") &
+   valid = ("A" <= ch .and. ch <= "Z") &
+      & .or. ("a" <= ch .and. ch <= "z") &
       & .or. (verify(ch, char_kind%literal) == 0)
    tmp_log = verify(peek(lexer, pos+1), terminated//char_kind%dot) > 0
    do while(tmp_log)
@@ -612,8 +612,8 @@ subroutine next_keypath(lexer, token)
       ch = peek(lexer, pos)
 
       tmp_log = verify(peek(lexer, pos+1), terminated//char_kind%dot) > 0
-      if (tfc_"A" <= ch .and. ch <= tfc_"Z") cycle
-      if (tfc_"a" <= ch .and. ch <= tfc_"z") cycle
+      if ("A" <= ch .and. ch <= "Z") cycle
+      if ("a" <= ch .and. ch <= "z") cycle
       if (verify(ch, char_kind%literal) == 0) cycle
 
       valid = .false.
