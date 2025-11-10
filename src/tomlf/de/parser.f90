@@ -519,13 +519,16 @@ recursive subroutine parse_inline_array(parser, lexer, array)
    type(toml_table), pointer :: tptr
    integer, parameter :: skip_tokens(*) = &
       [token_kind%whitespace, token_kind%comment, token_kind%newline]
+   logical :: tmp_log
 
    array%inline = .true.
    call consume(parser, lexer, token_kind%lbracket)
 
    inline_array: do while(.not.allocated(parser%diagnostic))
-      do while(any(parser%token%kind == skip_tokens))
+      tmp_log = any(parser%token%kind == skip_tokens)
+      do while(tmp_log)
          call next_token(parser, lexer)
+         tmp_log = any(parser%token%kind == skip_tokens)
       end do
 
       select case(parser%token%kind)
@@ -550,8 +553,10 @@ recursive subroutine parse_inline_array(parser, lexer, array)
       end select
       if (allocated(parser%diagnostic)) exit inline_array
 
-      do while(any(parser%token%kind == skip_tokens))
+      tmp_log = any(parser%token%kind == skip_tokens)
+      do while(tmp_log)
          call next_token(parser, lexer)
+         tmp_log = any(parser%token%kind == skip_tokens)
       end do
 
       if (parser%token%kind == token_kind%comma) then
