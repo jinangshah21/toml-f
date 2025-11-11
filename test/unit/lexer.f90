@@ -1329,11 +1329,29 @@ end subroutine move_error
 
 function get_name() result(filename)
    character(len=15) :: filename
+   character(len=8) :: hex_char
 
    real :: val
 
    call random_number(val)
-   write(filename, '(a, z8.8)') "toml-f-", int(val*1.0e9)
+   ! write(filename, '(a, z8.8)') "toml-f-", int(val*1.0e9)
+   filename(1:7) = "toml-f-"
+   hex_char = to_hex_8(int(val*1.0e9))
+   filename(8:15) = hex_char
 end function
+
+function to_hex_8(num) result(hex)
+   integer, intent(in) :: num
+   character(len=8) :: hex
+   integer :: n, j, digit
+   character(len=16), parameter :: hexchars = '0123456789ABCDEF'
+
+   n = num
+   do j = 8, 1, -1
+      digit = iand(n, 15)
+      hex(j:j) = hexchars(digit+1:digit+1)
+      n = ishft(n, -4)
+   end do
+end function to_hex_8
 
 end module tftest_lexer
