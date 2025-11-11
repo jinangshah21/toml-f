@@ -386,7 +386,7 @@ subroutine literal_control(error)
    !> Error handling
    type(error_type), allocatable, intent(out) :: error
 
-   call check_token(error, "'control char "//achar(0)//"','normal literal'", &
+   call check_token(error, "'control char "//achar(1)//"','normal literal'", &
       & [token_kind%invalid, token_kind%comma, token_kind%literal, token_kind%eof], .false.)
 end subroutine literal_control
 
@@ -450,7 +450,7 @@ subroutine string_control(error)
    !> Error handling
    type(error_type), allocatable, intent(out) :: error
 
-   call check_token(error, """control char "//achar(0)//""",""normal string""", &
+   call check_token(error, """control char "//achar(1)//""",""normal string""", &
       & [token_kind%invalid, token_kind%comma, token_kind%string, token_kind%eof], .false.)
 end subroutine string_control
 
