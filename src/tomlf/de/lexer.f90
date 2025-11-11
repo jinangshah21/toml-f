@@ -38,7 +38,7 @@ module tomlf_de_lexer
    implicit none
    private
 
-   public :: toml_lexer, new_lexer_from_file, new_lexer_from_unit, new_lexer_from_string
+   public :: toml_lexer, new_lexer_from_file, new_lexer_from_unit, new_lexer_from_string, new_lexer_from_unit_tmp
    public :: toml_token, stringify, token_kind
 
 
@@ -205,6 +205,46 @@ subroutine new_lexer_from_unit(lexer, io, error)
       call make_error(error, "Failed to read from unit")
    end if
 end subroutine new_lexer_from_unit
+
+
+subroutine new_lexer_from_unit_tmp(lexer, io, error, filename, mode)
+   !> Instance of the lexer
+   type(toml_lexer), intent(out) :: lexer
+   !> Unit to read from
+   integer, intent(in) :: io
+   !> Error code
+   type(toml_error), allocatable, intent(out) :: error
+
+   character(:, tfc), allocatable :: source, line
+   integer, parameter :: bufsize = 512
+   character(len=*), intent(in) :: filename, mode
+   integer :: stat
+
+   ! inquire(unit=io, access=mode, name=filename)
+   ! print *, filename
+   select case(trim(mode))
+   case default
+      stat = 1
+
+   case("sequential", "SEQUENTIAL")
+      allocate(character(0) :: source)
+      do 
+         call read_whole_line(io, line, stat)
+         if (stat > 0) exit
+         source = source // line // TOML_NEWLINE
+         if (stat < 0) then
+            if (is_iostat_end(stat)) stat = 0
+            exit
+         end if
+      end do
+      call new_lexer_from_string(lexer, source)
+   end select
+   if (len_trim(filename) > 0) lexer%filename = trim(filename)
+
+   if (stat /= 0) then
+      call make_error(error, "Failed to read from unit")
+   end if
+end subroutine new_lexer_from_unit_tmp
 
 !> Create a new instance of a lexer by reading from a string.
 subroutine new_lexer_from_string(lexer, string)

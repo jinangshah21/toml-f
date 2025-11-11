@@ -1269,7 +1269,7 @@ subroutine lexer_from_sequential(error)
    close(io)
 
    open(file=filename, newunit=io)
-   call new_lexer_from_unit(lexer, io, parse_error)
+   call new_lexer_from_unit_tmp(lexer, io, parse_error, filename, "SEQUENTIAL")
    call move_error(error, parse_error)
    close(io, status="delete")
    if (allocated(error)) return
