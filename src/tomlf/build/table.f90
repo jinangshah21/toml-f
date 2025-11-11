@@ -300,7 +300,7 @@ subroutine get_key_value_integer_i4(table, key, val, default, stat, origin)
    !> Origin in the data structure
    integer, intent(out), optional :: origin
 
-   call get_value(table, key%key, val, default, stat, origin)
+   call get_value(table, key%key, val, stat, default, origin)
 
 end subroutine get_key_value_integer_i4
 
@@ -960,7 +960,7 @@ end subroutine get_child_value_integer_i2
 
 
 !> Retrieve TOML value as four byte integer (might loose precision)
-subroutine get_child_value_integer_i4(table, key, val, default, stat, origin)
+subroutine get_child_value_integer_i4(table, key, val, stat, default, origin)
 
    !> Instance of the TOML table
    class(toml_table), intent(inout) :: table

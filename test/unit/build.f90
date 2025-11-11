@@ -330,7 +330,7 @@ subroutine table_int_i4(error)
 
    call table%destroy
    call new_table(table)
-   call get_value(table, "int", val, in3, stat=stat)
+   call get_value(table, "int", val, stat, in3)
 
    call check(error, val, in3)
    if (allocated(error)) return
