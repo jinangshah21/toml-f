@@ -284,9 +284,7 @@ pure function get_type(self) result(value_type)
 
    !> Value type
    integer :: value_type
-   class(generic_value), pointer :: val
-   ! val => self%val
-   select type(val)
+   select type(val => self%val)
    class default
       value_type = toml_type%invalid
    type is(float_value)
