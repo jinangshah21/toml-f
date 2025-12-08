@@ -41,9 +41,9 @@ subroutine read_whole_file(filename, string, stat)
       & newunit=io, &
       & iostat=stat)
    if (stat == 0) then
-      inquire(unit=io, pos=length)
-      allocate(character(length-1, tfc) :: string, stat=stat)
-      allocate(character(length-1, tfc) :: temp, stat=stat)
+      inquire(file=filename, size=length)
+      allocate(character(length, tfc) :: string, stat=stat)
+      allocate(character(length, tfc) :: temp, stat=stat)
    end if
    if (stat == 0) then
       read(io, pos=1, iostat=stat) temp
